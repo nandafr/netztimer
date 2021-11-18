@@ -33,6 +33,7 @@ android {
         def versionCode = variant.flavors*.versionCode.get(0)
         def date = new Date()
         def formatedDate = date.format("ddMMyyyy")
+        //custom nama file apk, ketika generate apk, maka nama akan seperti format di bawah.
         archivesBaseName = appName + "-" + formatedDate + "-" + versionName + "-" + versionCode + "-" + releaseNumber
 
     }
@@ -43,6 +44,7 @@ android {
         }
     }
 
+    //custom signing confi untuk setiap jenis config, debug dan release
     signingConfigs {
         debug {
             storeFile file('C:/WORKWORK/GitHub/netztimer/keystore/my.debug.keystore')
