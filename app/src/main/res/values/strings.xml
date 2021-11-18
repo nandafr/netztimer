@@ -1,0 +1,9 @@
+<resources>
+    <string name="btn_start">Start</string>
+    <string name="btn_pause">Pause</string>
+    <string name="btn_resume">Resume</string>
+    <string name="quotes_ala_ala">\"Berubahlah ketika kamu masih punya waktu karena mungkin akan tiba saat di mana kamu ingin berubah, waktu tak lagi kau punya. \"</string>
+    <string name="quotes_title">Ini Quotes: </string>
+    <string name="hint_quotes">~ Quotes hanya pemanis.</string>
+    <string name="btn_reset">Reset</string>
+</resources>

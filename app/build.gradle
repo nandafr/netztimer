@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.application'
+}
+
+ext.releaseNumber = "1"
+ext.appName = "netztimer"
+
+android {
+    compileSdk 30
+    defaultConfig {
+        applicationId "com.nandafr.netztimer"
+        minSdk 22
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "flavors"
+    productFlavors {
+        id {
+            dimension "flavors"
+            applicationId "com.nandafr.netztimer"
+            versionCode 1
+            versionName "1.0.0"
+            resValue "string", "app_name", "NetzTimer" //@String/appName, Pengaturan Nama Aplikasi
+
+        }
+    }
+
+    variantFilter { variant ->
+        def versionName = variant.flavors*.versionName.get(0)
+        def versionCode = variant.flavors*.versionCode.get(0)
+        def date = new Date()
+        def formatedDate = date.format("ddMMyyyy")
+        archivesBaseName = appName + "-" + formatedDate + "-" + versionName + "-" + versionCode + "-" + releaseNumber
+
+    }
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res']
+        }
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('C:/WORKWORK/GitHub/netztimer/keystore/my.debug.keystore')
+        }
+        release {
+            storeFile file('C:/WORKWORK/GitHub/netztimer/keystore/my.release.keystore')
+            storePassword "netzmeid"
+            keyAlias "netzmeid"
+            keyPassword "netzmeid"
+            v2SigningEnabled true
+        }
+    }
+
+    buildTypes {
+        def CONFIG = {
+            k -> "\"${project.properties.get(k)}\""
+        }
+
+        debug {
+            signingConfig signingConfigs.debug
+            minifyEnabled false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "RELEASE_NUMBER", CONFIG("releaseNumber")
+        }
+        release {
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            zipAlignEnabled true
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-release.pro'
+            buildConfigField "String", "RELEASE_NUMBER", CONFIG("releaseNumber")
+        }
+
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+
+    viewBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.3.1'
+    implementation 'com.google.android.material:material:1.4.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.1'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+
+    //Untuk memudahkan atur size element UI, Agar support multiple screen/device size (SDP - Scaleable size unit)
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+
+    //Untuk menjalankan animasi, agar UInya lebih keceh...
+    implementation "com.airbnb.android:lottie:4.2.1"
+}
